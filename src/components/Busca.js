@@ -1,21 +1,22 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Icon } from 'react-native-elements'
+import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux'
+import navigatorService from './../helpers/NavigationService'
 import { bindActionCreators } from 'redux'
+import { colors } from './../helpers/Style'
 
 const styles = StyleSheet.create({
-    container: {
+    containerSafeAreaView: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'black'
+        backgroundColor: colors.black
+    },
+    container: {
+        flex: 1
     },
     txt: {
-        color: 'white'
+        color: colors.white
     }
-
 });
 
 
@@ -24,10 +25,17 @@ class Home extends Component {
     };
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.txt}>Sarch</Text>
-                <Text style={styles.txt}>Page</Text>
-            </View>
+            <SafeAreaView style={styles.containerSafeAreaView}>
+                <View style={styles.container}>
+                    <Text style={styles.txt}>Search</Text>
+                    <Text style={styles.txt}>Page</Text>
+                    <TouchableOpacity>
+                        <Text style={styles.txt} onPress={() => navigatorService.navigate('Detalhes')}>
+                            go to detalhes
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
         )
     }
 }
