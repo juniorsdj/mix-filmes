@@ -13,7 +13,7 @@ const devTools = process.env.NODE_ENV == 'development' ? window.__REDUX_DEVTOOLS
 export const store = applyMiddleware(promise, thunk)(createStore)(rootReducer, devTools)
 
 import Home from './components/Home'
-// import Navigator from './Navigator'
+import Navigator from './Navigator'
 
 
 
@@ -36,7 +36,7 @@ class Start extends React.Component {
         >
           {/* <StatusBar backgroundColor={colors.brandDark} /> */}
           {/* <StatusBarComponent /> */}
-          <Home />
+          <Navigator />
 
 
         </View>

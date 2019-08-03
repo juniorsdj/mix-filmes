@@ -1,52 +1,71 @@
 import React from 'react'
-import { Icon } from 'react-native'
+import { View, Text } from 'react-native'
 import NavigationService from './helpers/NavigationService'
-import { createAppContainer, createBottomTabNavigator } from "react-navigation";
+import { createAppContainer, createBottomTabNavigator, createStackNavigator } from "react-navigation";
 import HomeScreen from './components/Home'
 
 
 
-const MainRoutes = {
-    Home: {
-        name: 'Home',
-        path: '/Home',
-        screen: HomeScreen,
-        navigationOptions: {
-            title: 'Início',
-            tabBarIcon: ({ tintColor }) =>
-                <Icon name='home' size={30} color={tintColor} />
-        }
-
-    },
-    Home: {
-        name: 'Home',
-        path: '/Home',
-        screen: HomeScreen,
-        navigationOptions: {
-            title: 'Horario de Funcionamento',
-            tabBarIcon: ({ tintColor }) =>
-                <Icon name='clock-o' size={30} color={tintColor} />
-        }
-
-    },
+const Config = {
+    initialRouteName: 'Home',
+    // defaultNavigationOptions: ({ navigation }) => ({
+    //     tabBarIcon: ({ focused, tintColor }) => {
+    //       const { routeName } = navigation.state;
+    //       let iconName;
+    //       if (routeName === 'Home') {
+    //         iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+    //         // Sometimes we want to add badges to some icons. 
+    //         // You can check the implementation below.
+    //       } else if (routeName === 'Settings') {
+    //         iconName = `ios-options`;
+    //       }
+  
+    //       // You can return any component that you like here!
+    //       return <Icon name={iconName} size={25} color={tintColor} />;
+    //     },
+    //   }),
+    //   tabBarOptions: {
+    //     activeTintColor: 'tomato',
+    //     inactiveTintColor: 'gray',
+    //   },
+    // tabBarOptions: {
+    //     showLabel: false,
+    // }
 }
 
-const MainConfig = {
-    initialRouteName: 'Home',
-    tabBarOptions: {
-        showLabel: false,
+
+const Routes = {
+    Home: {
+        screen: HomeScreen,
+        name: 'Home',
+        path: '/Home',
+        navigationOptions: {
+            title: 'Início',
+            // tabBarIcon: ({ tintColor }) =>
+            //     <Icon name='home' size={30} color={tintColor} />
+        }
+    },
+    Search: {
+        screen: HomeScreen,
+        name: 'Search',
+        path: '/Search',
+        navigationOptions: {
+            title: 'Procurar',
+            // tabBarIcon: ({ tintColor }) =>
+            //     <Icon name='home' size={30} color={tintColor} />
+        }
     }
 }
 
 
-const MainNavigator = createBottomTabNavigator(MainRoutes, MainConfig)
+const AppNavigator = createBottomTabNavigator(Routes, Config);
 
+const AppContainer = createAppContainer(AppNavigator);
 
-
-const AppContainer = createAppContainer(MainNavigator);
-
-export default () =>
-    <AppContainer  />
-    // <AppContainer ref={navigatorRef => {
-    //     NavigationService.setTopLevelNavigator(navigatorRef)
-    // }} />
+export default class Navigator extends React.Component {
+    render() {
+        return <AppContainer ref={navigatorRef => {
+            NavigationService.setTopLevelNavigator(navigatorRef)
+        }} />
+    }
+}

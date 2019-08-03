@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import { Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -21,6 +22,8 @@ class Home extends Component {
         return (
             <View style={styles.container}>
                 <Text>Oi</Text>
+                <Icon name='clock-o' size={30} color='#ff0ff0' />
+                <Text>Icon</Text>
             </View>
         )
     }
