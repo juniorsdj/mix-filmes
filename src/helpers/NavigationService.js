@@ -9,6 +9,8 @@ export const setTopLevelNavigator = (navigatorRef) => {
 }
 
 export const navigate = (routeName) => {
+    console.log(_navigator)
+    console.log(routeName)
     _navigator.dispatch(
         NavigationActions.navigate({
             routeName

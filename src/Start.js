@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import { applyMiddleware, createStore } from 'redux'
 import { Provider } from 'react-redux'
 import promise from 'redux-promise'
@@ -12,7 +12,6 @@ const devTools = process.env.NODE_ENV == 'development' ? window.__REDUX_DEVTOOLS
 
 export const store = applyMiddleware(promise, thunk)(createStore)(rootReducer, devTools)
 
-import Home from './components/Home'
 import Navigator from './Navigator'
 
 
@@ -30,18 +29,11 @@ class Start extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <View
-          style={styles.container}
-        // forceInset={{ horizontal: 'always', top: 'always' }}
-        >
-          {/* <StatusBar backgroundColor={colors.brandDark} /> */}
-          {/* <StatusBarComponent /> */}
+        <StatusBar translucentbackgroundColor="#000"
+          barStyle="light-content" />
+        <View style={styles.container}>
           <Navigator />
-
-
         </View>
-
-
       </Provider>
 
     );
