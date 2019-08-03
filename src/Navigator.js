@@ -5,16 +5,16 @@ import { createAppContainer, createBottomTabNavigator, createStackNavigator } fr
 import HomeScreen from './components/Home'
 import SearchScreen from './components/Busca'
 import DetalhesScreen from './components/Detalhes'
-
+import { colors, normalizeWidPx } from './helpers/Style'
 
 const TabConfig = {
     initialRouteName: 'Home',
     defaultNavigationOptions: () => ({
         tabBarOptions: {
-            activeTintColor: '#fff',
-            inactiveTintColor: '#444',
+            activeTintColor: colors.white,
+            inactiveTintColor: colors.default20,
             style: {
-                backgroundColor: '#111',
+                backgroundColor: colors.almostBlack,
             }
         },
 
@@ -31,7 +31,7 @@ const TabRoutes = {
         navigationOptions: {
             title: 'Início',
             tabBarIcon: ({ tintColor }) =>
-                <Icon name='home' size={30} color={tintColor} />
+                <Icon name='home' size={normalizeWidPx(30)} color={tintColor} />
         }
     },
     Search: {
@@ -41,7 +41,7 @@ const TabRoutes = {
         navigationOptions: {
             title: 'Procurar',
             tabBarIcon: ({ tintColor }) =>
-                <Icon name='search' size={30} color={tintColor} />
+                <Icon name='search' size={normalizeWidPx(30)} color={tintColor} />
         }
     }
 }
@@ -64,9 +64,9 @@ const MainRoutes = {
         navigationOptions: {
             title: 'Detalhes',
             headerBackTitle: 'Voltar',
-            headerTintColor: '#fff',
+            headerTintColor: colors.white,
             headerStyle: {
-                backgroundColor: '#000',
+                backgroundColor: colors.black,
                 borderBottomWidth: 0,
             },
         }
