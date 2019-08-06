@@ -32,20 +32,58 @@ const styles = StyleSheet.create({
 
 class Home extends Component {
     state = {
+        filmesLancamentos: [],
+        filmesPopulares: [],
+        atoresPopulares: [],
     };
 
-    componentDidMount(){
-        console.log('did mount')
-        Requests.discoverLancamentoThisMonth().then(r =>{
-            console.log(r)
+    componentDidMount() {
+        this.requestFilmesLancamentos()
+        this.requestFilmesMaisPopulares()
+        this.requestAtoresPopulares()
+    }
+
+
+    requestFilmesLancamentos() {
+        Requests.discoverFilmesLancamento().then(r => {
+            const filmesLancamentos = []
+            for (let index = 0; index < 5; index++) {
+                filmesLancamentos.push(r.results[index])
+            }
+            this.setState({ filmesLancamentos })
         }).catch(
-            err =>{
+            err => {
                 console.log(err)
             }
         )
     }
+
+    requestFilmesMaisPopulares() {
+        Requests.discoverFilmesMaisPopulares().then(r => {
+            this.setState({ filmesPopulares: r.results })
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
+
+    requestAtoresPopulares() {
+        Requests.discoverAtoresMaisPopulares().then(r => {
+            this.setState({ atoresPopulares: r.results })
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
     render() {
-        console.log('render')
+        const { filmesLancamentos, atoresPopulares, filmesPopulares } = this.state
+
+
+        console.log(filmesLancamentos)
+        console.log(atoresPopulares)
+        console.log(filmesPopulares)
+
+
         return (
             <SafeAreaView style={styles.containerSafeAreaView}>
                 <View style={styles.container}>
