@@ -26,6 +26,7 @@ class Home extends Component {
     state = {
     };
     render() {
+        console.log(this.props.navigation.getParam('filme'))
         return (
             <SafeAreaView style={styles.containerSafeAreaView}>
                 <View style={styles.container}>

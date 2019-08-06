@@ -1,11 +1,17 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, SafeAreaView, Image, ImageBackground } from 'react-native';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { mkUriImage } from './../helpers/FnUtils'
 import navigatorService from './../helpers/NavigationService'
-import { colors, normalizeWidPx, tipografy } from './../helpers/Style'
+import { colors, normalizeWidPx, tipografy, WIDTH_SCREEN, WIDTH_SCREEN_PERCENT } from './../helpers/Style'
 import Requests from './../shared/Requests'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
+
+
+const SIZE_IMAGE_PAGE = (WIDTH_SCREEN - normalizeWidPx(24))
 const styles = StyleSheet.create({
     containerSafeAreaView: {
         flex: 1,
@@ -17,7 +23,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: normalizeWidPx(12)
     },
     containerTela: {
-        flex: 1
+        // flex: 1
     },
     containerTitle: {
         fontSize: tipografy.sizeTitle02,
@@ -25,6 +31,26 @@ const styles = StyleSheet.create({
     },
     txt: {
         color: colors.white
+    },
+    containerLancamentos: {
+        flexDirection: 'row'
+    },
+    imageLancamentos: {
+        height: WIDTH_SCREEN_PERCENT(54),
+        width: SIZE_IMAGE_PAGE,
+        resizeMode: 'stretch',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-start'
+    },
+    titleFilmeLancamento: {
+        color: colors.gold,
+        padding: normalizeWidPx(8),
+        backgroundColor: colors.backgroundGray
+    },
+    btnImage:{
+         flex: 1 ,
+         justifyContent: 'flex-end',
+         
     }
 
 });
@@ -41,8 +67,22 @@ class Home extends Component {
         this.requestFilmesLancamentos()
         this.requestFilmesMaisPopulares()
         this.requestAtoresPopulares()
+        this.loopImagesDescubra()
+
+
     }
 
+
+    loopImagesDescubra() {
+        let i
+        setInterval(() => {
+            if (!i || i > 4) {
+                i = 0
+            }
+            this.scrollview.scrollTo({ x: (i * SIZE_IMAGE_PAGE), y: 5, animated: true })
+            i = i + 1
+        }, 4000)
+    }
 
     requestFilmesLancamentos() {
         Requests.discoverFilmesLancamento().then(r => {
@@ -79,9 +119,6 @@ class Home extends Component {
         const { filmesLancamentos, atoresPopulares, filmesPopulares } = this.state
 
 
-        console.log(filmesLancamentos)
-        console.log(atoresPopulares)
-        console.log(filmesPopulares)
 
 
         return (
@@ -89,6 +126,25 @@ class Home extends Component {
                 <View style={styles.container}>
                     <View style={styles.containerTela}>
                         <Text style={styles.containerTitle}>Descubra</Text>
+                        <ScrollView style={styles.containerLancamentos}
+                            ref={(ref) => this.scrollview = ref}
+                            keyboardShouldPersistTaps='always'
+                            horizontal
+                            pagingEnabled
+                        >
+                            {
+                                filmesLancamentos.map((filme, index) => (
+                                    <ImageBackground key={index} style={styles.imageLancamentos} source={mkUriImage(filme.backdrop_path)}>
+                                        <TouchableWithoutFeedback style={styles.btnImage} onPress={() => navigatorService.navigate('Detalhes',{
+                                            filme
+                                        } )}>
+                                            <Text style={styles.titleFilmeLancamento}> {filme.title}</Text>
+                                        </TouchableWithoutFeedback>
+                                    </ImageBackground>
+                                ))
+
+                            }
+                        </ScrollView>
                     </View>
                     <View style={styles.containerTela}>
                         <Text style={styles.containerTitle}>Filmes Populares</Text>
