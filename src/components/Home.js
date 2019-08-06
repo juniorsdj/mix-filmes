@@ -52,7 +52,24 @@ const styles = StyleSheet.create({
     centered: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex:1
+        flex: 1
+    },
+    imagemVertical: {
+        width: normalizeWidPx(90),
+        height: normalizeWidPx(120)
+    },
+    abaixoImagem: {
+        color: colors.white,
+        fontSize: tipografy.sizeMini,
+        textAlign: 'center',
+        marginTop: normalizeWidPx(4)
+    },
+    boxImagemTxt: {
+        width: normalizeWidPx(110),
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        marginHorizontal: normalizeWidPx(4)
     }
 
 });
@@ -151,28 +168,78 @@ class Home extends Component {
             </View>
         )
     }
+
+    renderContainerFilmesPopulares() {
+        const { filmesPopulares } = this.state
+        return (
+            <View style={styles.containerTela}>
+                <HeaderContainer title='Filmes Populares' action={() => navigatorService.navigate('Search', {
+                    lista: filmesPopulares
+                })} />
+                <ScrollView style={styles.containerLancamentos}
+                    keyboardShouldPersistTaps='always'
+                    horizontal
+                >
+                    {filmesPopulares.length > 0 ? filmesPopulares.map((filme, index) =>
+                        <TouchableWithoutFeedback key={index} style={styles.boxImagemTxt} onPress={() => navigatorService.navigate('Detalhes', {
+                            filme
+                        })}>
+                            <Image style={styles.imagemVertical} source={mkUriImage(filme.poster_path)} />
+                            <Text style={styles.abaixoImagem}>{filme.title}</Text>
+                            <Text style={styles.abaixoImagem}>{new Date(filme.release_date).toLocaleDateString('pt-BR')}</Text>
+
+                        </TouchableWithoutFeedback>
+                    )
+                        :
+                        <View style={[styles.imageLancamentos, styles.centered]}>
+                            <ActivityIndicator size={tipografy.sizeIcon} />
+                        </View>
+                    }
+
+                </ScrollView>
+            </View>
+        )
+    }
+
+    renderContainerAtoresPopulares() {
+        const { atoresPopulares } = this.state
+        console.log(atoresPopulares)
+        return (
+            <View style={styles.containerTela}>
+                <HeaderContainer title='Atores/Atrizes' action={() => navigatorService.navigate('Search', {
+                    lista: atoresPopulares
+                })} />
+                <ScrollView style={[styles.containerLancamentos,{ marginBottom: normalizeWidPx(5)}]}
+                    keyboardShouldPersistTaps='always'
+                    horizontal
+                >
+                    {atoresPopulares.length > 0 ? atoresPopulares.map((ator, index) =>
+                        <TouchableWithoutFeedback key={index} style={styles.boxImagemTxt} 
+                        // onPress={() => navigatorService.navigate('Detalhes', {
+                        //     ator
+                        // })}
+                        >
+                            <Image style={styles.imagemVertical} source={mkUriImage(ator.profile_path)} />
+                            <Text style={styles.abaixoImagem}>{ator.name}</Text>
+                        </TouchableWithoutFeedback>
+                    )
+                        :
+                        <View style={[styles.imageLancamentos, styles.centered]}>
+                            <ActivityIndicator size={tipografy.sizeIcon} />
+                        </View>
+                    }
+
+                </ScrollView>
+            </View>
+        )
+    }
     render() {
-        const { atoresPopulares, filmesPopulares } = this.state
-
-
-
-
         return (
             <SafeAreaView style={styles.containerSafeAreaView}>
                 <ScrollView style={styles.container}>
                     {this.renderContainerDescubra()}
-                    <View style={styles.containerTela}>
-                        <HeaderContainer title='Filmes Populares' action={() => navigatorService.navigate('Search', {
-                            lista: filmesPopulares
-                        })} />
-                    </View>
-                    <View style={styles.containerTela}>
-                        <HeaderContainer title='Atores/Atrizes' action={() => navigatorService.navigate('Search', {
-                            lista: atoresPopulares
-                        })} />
-                    </View>
-
-
+                    {this.renderContainerFilmesPopulares()}
+                    {this.renderContainerAtoresPopulares()}
                 </ScrollView>
             </SafeAreaView>
         )
