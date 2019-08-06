@@ -26,6 +26,7 @@ export const colors = {
     black: "#000000",
     transparent: "rgba(0,0,0,0)",
 
+    backgroundGray:"rgba(64,64,64,.6)",
     warning10: "#FFF3E0",
     warning20: "#FB8C00",
     warning30: "#E65100",

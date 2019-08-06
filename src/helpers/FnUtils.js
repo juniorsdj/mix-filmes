@@ -7,3 +7,8 @@ export const stringifyQueryString = (obj) => {
     return queryString.stringify(retorno);
 
 }
+
+
+export const mkUriImage = (img) => {
+    return {uri: `https://image.tmdb.org/t/p/w500${img}`}
+}

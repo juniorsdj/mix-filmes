@@ -8,10 +8,11 @@ export const setTopLevelNavigator = (navigatorRef) => {
 
 }
 
-export const navigate = (routeName) => {
+export const navigate = (routeName, params) => {
     _navigator.dispatch(
         NavigationActions.navigate({
-            routeName
+            routeName,
+            params
         })
     );
 }
