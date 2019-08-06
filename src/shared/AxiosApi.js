@@ -14,6 +14,8 @@ AxiosApi.defaults.baseURL = API_URL;
 
 
 const handleResponseSuccess = function (response) {
+    if(response.data)
+        return response.data
     // if (networkErrorToastId) {
     //     toast.dismiss(networkErrorToastId)
     //     networkErrorToastId = null;
@@ -66,6 +68,7 @@ export const handleResponseError = async (error) => {
 
 
 AxiosApi.interceptors.request.use(function (config) {
+    config.url += '&api_key=ba19a79e0aa6722b483fcf104b8e8b10&language=pt-BR'
     return config
 }, function (error) {
     console.log(error)
