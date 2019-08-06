@@ -203,7 +203,6 @@ class Home extends Component {
 
     renderContainerAtoresPopulares() {
         const { atoresPopulares } = this.state
-        console.log(atoresPopulares)
         return (
             <View style={styles.containerTela}>
                 <HeaderContainer title='Atores/Atrizes' action={() => navigatorService.navigate('Search', {
