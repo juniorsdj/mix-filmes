@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements'
 import { bindActionCreators } from 'redux'
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row'
     },
-    smallMargin: {
+    containerContentLateralImagem: {
         padding: normalizeWidPx(10),
         flex: 1,
         justifyContent: 'space-between'
@@ -61,8 +61,18 @@ const styles = StyleSheet.create({
     txtNota: {
         color: colors.white,
         fontSize: tipografy.sizeSubTitle
+    },
+    containerTitle: {
+        fontSize: tipografy.sizeTitle02,
+        color: colors.white
+    },
+    txtOverview: {
+        color: colors.white,
+        fontSize: tipografy.sizeMini
+    },
+    containerSinopse: {
+        marginVertical: normalizeWidPx(8)
     }
-
 
 });
 
@@ -94,10 +104,10 @@ class Home extends Component {
 
         return (
             <SafeAreaView style={styles.containerSafeAreaView}>
-                <View style={styles.container}>
+                <ScrollView style={styles.container}>
                     <View style={styles.row}>
                         <Image style={styles.imagemFilme} source={mkUriImage(filme.poster_path)} />
-                        <View style={styles.smallMargin}>
+                        <View style={styles.containerContentLateralImagem}>
                             <View>
                                 <Text style={styles.txtTitle}>{filme.title}</Text>
                                 <Text style={styles.txtDate}>{new Date(filme.release_date).toLocaleDateString('pt-BR')}</Text>
@@ -118,7 +128,21 @@ class Home extends Component {
 
 
                     </View>
-                </View>
+                    <View style={styles.containerSinopse}>
+                        <Text style={styles.containerTitle}>Sinopse</Text>
+                        <Text style={styles.txtOverview}>
+                            {
+                                filme.overview
+                            }
+                        </Text>
+                    </View>
+                    {
+                        filme.video &&
+                        <View style={styles.containerSinopse}>
+                            <Text style={styles.containerTitle}>Vídeo</Text>
+                        </View>
+                    }
+                </ScrollView>
             </SafeAreaView>
         )
     }
