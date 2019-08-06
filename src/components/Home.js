@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, SafeAreaView, Image, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, ActivityIndicator, SafeAreaView, Image, ImageBackground } from 'react-native';
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements'
 import { bindActionCreators } from 'redux'
@@ -8,9 +8,8 @@ import { mkUriImage } from './../helpers/FnUtils'
 import navigatorService from './../helpers/NavigationService'
 import { colors, normalizeWidPx, tipografy, WIDTH_SCREEN, WIDTH_SCREEN_PERCENT } from './../helpers/Style'
 import Requests from './../shared/Requests'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-
-
+import { HeaderContainer } from './../helpers/SharedComponents'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 const SIZE_IMAGE_PAGE = (WIDTH_SCREEN - normalizeWidPx(24))
 const styles = StyleSheet.create({
@@ -28,9 +27,6 @@ const styles = StyleSheet.create({
     },
     containerTitle: {
         fontSize: tipografy.sizeTitle02,
-        color: colors.white
-    },
-    txt: {
         color: colors.white
     },
     containerLancamentos: {
@@ -53,16 +49,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
 
     },
-    verMais: {
-        fontSize: tipografy.sizeBody,
-        color: colors.gold,
-    },
-    rowCentered: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    spaceBetween: {
-        justifyContent: 'space-between'
+    centered: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex:1
     }
 
 });
@@ -127,58 +117,63 @@ class Home extends Component {
         })
     }
 
+    renderContainerDescubra() {
+        const { filmesLancamentos } = this.state
+        return (
+            <View style={styles.containerTela}>
+                <Text style={styles.containerTitle}>Descubra</Text>
+
+                <ScrollView style={styles.containerLancamentos}
+                    ref={(ref) => this.scrollview = ref}
+                    keyboardShouldPersistTaps='always'
+                    horizontal
+                    pagingEnabled
+                >
+                    {
+                        filmesLancamentos.length > 0 ?
+                            filmesLancamentos.map((filme, index) => (
+                                <ImageBackground key={index} style={styles.imageLancamentos} source={mkUriImage(filme.backdrop_path)}>
+                                    <TouchableWithoutFeedback style={styles.btnImage} onPress={() => navigatorService.navigate('Detalhes', {
+                                        filme
+                                    })}>
+                                        <Text style={styles.titleFilmeLancamento}> {filme.title}</Text>
+                                    </TouchableWithoutFeedback>
+                                </ImageBackground>
+                            )) :
+                            (
+                                <View style={[styles.imageLancamentos, styles.centered]}>
+                                    <ActivityIndicator size={tipografy.sizeIcon} />
+                                </View>
+                            )
+
+                    }
+                </ScrollView>
+            </View>
+        )
+    }
     render() {
-        const { filmesLancamentos, atoresPopulares, filmesPopulares } = this.state
+        const { atoresPopulares, filmesPopulares } = this.state
 
 
 
 
         return (
             <SafeAreaView style={styles.containerSafeAreaView}>
-                <View style={styles.container}>
+                <ScrollView style={styles.container}>
+                    {this.renderContainerDescubra()}
                     <View style={styles.containerTela}>
-                        <Text style={styles.containerTitle}>Descubra</Text>
-                        <ScrollView style={styles.containerLancamentos}
-                            ref={(ref) => this.scrollview = ref}
-                            keyboardShouldPersistTaps='always'
-                            horizontal
-                            pagingEnabled
-                        >
-                            {
-                                filmesLancamentos.map((filme, index) => (
-                                    <ImageBackground key={index} style={styles.imageLancamentos} source={mkUriImage(filme.backdrop_path)}>
-                                        <TouchableWithoutFeedback style={styles.btnImage} onPress={() => navigatorService.navigate('Detalhes', {
-                                            filme
-                                        })}>
-                                            <Text style={styles.titleFilmeLancamento}> {filme.title}</Text>
-                                        </TouchableWithoutFeedback>
-                                    </ImageBackground>
-                                ))
-
-                            }
-                        </ScrollView>
+                        <HeaderContainer title='Filmes Populares' action={() => navigatorService.navigate('Search', {
+                            lista: filmesPopulares
+                        })} />
                     </View>
                     <View style={styles.containerTela}>
-                        <View style={[styles.rowCentered, styles.spaceBetween]}>
-                            <Text style={styles.containerTitle}>Filmes Populares</Text>
-                            <TouchableWithoutFeedback style={styles.rowCentered} onPress={() => navigatorService.navigate('Search', {
-                                lista: filmesPopulares
-                            })}>
-                                <Text style={styles.verMais}>Ver mais</Text>
-                                <Icon name='chevron-right' color={colors.gold} size={tipografy.sizeIcon} />
-                            </TouchableWithoutFeedback>
-
-                        </View>
-                        
-
-                    </View>
-                    <View style={styles.containerTela}>
-                        <Text style={styles.containerTitle}>Atores/Atrizes</Text>
-                        <Text style={styles.txt}>fim</Text>
+                        <HeaderContainer title='Atores/Atrizes' action={() => navigatorService.navigate('Search', {
+                            lista: atoresPopulares
+                        })} />
                     </View>
 
 
-                </View>
+                </ScrollView>
             </SafeAreaView>
         )
     }
