@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity, SafeAreaView, Image, ImageBackground } from 'react-native';
 import { connect } from 'react-redux'
+import { Icon } from 'react-native-elements'
 import { bindActionCreators } from 'redux'
 import { mkUriImage } from './../helpers/FnUtils'
 import navigatorService from './../helpers/NavigationService'
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: normalizeWidPx(12)
     },
     containerTela: {
-        // flex: 1
+        marginVertical: normalizeWidPx(14)
     },
     containerTitle: {
         fontSize: tipografy.sizeTitle02,
@@ -47,10 +48,21 @@ const styles = StyleSheet.create({
         padding: normalizeWidPx(8),
         backgroundColor: colors.backgroundGray
     },
-    btnImage:{
-         flex: 1 ,
-         justifyContent: 'flex-end',
-         
+    btnImage: {
+        flex: 1,
+        justifyContent: 'flex-end',
+
+    },
+    verMais: {
+        fontSize: tipografy.sizeBody,
+        color: colors.gold,
+    },
+    rowCentered: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    spaceBetween: {
+        justifyContent: 'space-between'
     }
 
 });
@@ -135,9 +147,9 @@ class Home extends Component {
                             {
                                 filmesLancamentos.map((filme, index) => (
                                     <ImageBackground key={index} style={styles.imageLancamentos} source={mkUriImage(filme.backdrop_path)}>
-                                        <TouchableWithoutFeedback style={styles.btnImage} onPress={() => navigatorService.navigate('Detalhes',{
+                                        <TouchableWithoutFeedback style={styles.btnImage} onPress={() => navigatorService.navigate('Detalhes', {
                                             filme
-                                        } )}>
+                                        })}>
                                             <Text style={styles.titleFilmeLancamento}> {filme.title}</Text>
                                         </TouchableWithoutFeedback>
                                     </ImageBackground>
@@ -147,11 +159,18 @@ class Home extends Component {
                         </ScrollView>
                     </View>
                     <View style={styles.containerTela}>
-                        <Text style={styles.containerTitle}>Filmes Populares</Text>
-                        <Text style={styles.txt}>Page</Text>
-                        <Text style={styles.txt} onPress={() => navigatorService.navigate('Detalhes')}>
-                            go to detalhes
-                        </Text>
+                        <View style={[styles.rowCentered, styles.spaceBetween]}>
+                            <Text style={styles.containerTitle}>Filmes Populares</Text>
+                            <TouchableWithoutFeedback style={styles.rowCentered} onPress={() => navigatorService.navigate('Search', {
+                                lista: filmesPopulares
+                            })}>
+                                <Text style={styles.verMais}>Ver mais</Text>
+                                <Icon name='chevron-right' color={colors.gold} size={tipografy.sizeIcon} />
+                            </TouchableWithoutFeedback>
+
+                        </View>
+                        
+
                     </View>
                     <View style={styles.containerTela}>
                         <Text style={styles.containerTitle}>Atores/Atrizes</Text>
