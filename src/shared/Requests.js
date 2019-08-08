@@ -13,8 +13,8 @@ export const discoverAtoresMaisPopulares = () => {
 export const detalhesFilme = (movieId) => {
     return axiosApi.get(`/movie/${movieId}?`)
 }
-export const procurarFilme = (query) => {
-    return axiosApi.get(`/search/movie/?${stringifyQueryString(query)}`)
+export const procurarFilmeByName = (query, page) => {
+    return axiosApi.get(`/search/movie/?${stringifyQueryString({ page, query })}`)
 }
 
 export default {
@@ -22,5 +22,5 @@ export default {
     discoverFilmesMaisPopulares,
     discoverAtoresMaisPopulares,
     detalhesFilme,
-    procurarFilme
+    procurarFilmeByName
 }
