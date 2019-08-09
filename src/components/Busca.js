@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    loadingFooter:{
+    loadingFooter: {
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: normalizeWidPx(10)
@@ -90,7 +90,13 @@ class Home extends Component {
             })
         } else {
             Requests.procurarFilmeByName(nome, page).then(r => {
-                const results = this.state.results.concat( r.results)
+                let results
+                if (!!page) {
+                    results = this.state.results.concat(r.results)
+                } else {
+                    results = r.results
+                }
+
                 this.setState({
                     results,
                     totalPages: r.total_pages,
@@ -107,9 +113,9 @@ class Home extends Component {
 
     carregarMaisFilmes() {
         const { totalPages, page, text, } = this.state
-        if(page >= totalPages)
+        if (page >= totalPages)
             return null
-        return this.requestBuscaByName(text, page+1)
+        return this.requestBuscaByName(text, page + 1)
     }
     renderFilme(item) {
         const filme = item.item
@@ -163,7 +169,7 @@ class Home extends Component {
                         data={results}
                         numColumns={3}
                         renderItem={this.renderFilme}
-                        keyExtractor={item => `${item.id}`}
+                        keyExtractor={item => `${item.id}${Math.random()}`}
                         onEndReached={this.carregarMaisFilmes.bind(this)}
                         onEndReachedThreshold={0.1}
                         ListFooterComponent={this.renderFooter}
