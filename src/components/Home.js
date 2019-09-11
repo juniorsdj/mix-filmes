@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, ScrollView, ActivityIndicator, SafeAreaView, Image, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, ActivityIndicator, TouchableWithoutFeedback, SafeAreaView, Image, ImageBackground } from 'react-native';
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements'
 import { bindActionCreators } from 'redux'
@@ -9,7 +9,6 @@ import navigatorService from './../helpers/NavigationService'
 import { colors, normalizeWidPx, tipografy, WIDTH_SCREEN, WIDTH_SCREEN_PERCENT } from './../helpers/Style'
 import Requests from './../shared/Requests'
 import { HeaderContainer } from './../helpers/SharedComponents'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 
 const SIZE_IMAGE_PAGE = (WIDTH_SCREEN - normalizeWidPx(24))
