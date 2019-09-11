@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, ScrollView, ActivityIndicator, TouchableWithoutFeedback, SafeAreaView, Image, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, ActivityIndicator, SafeAreaView, Image, ImageBackground } from 'react-native';
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements'
 import { bindActionCreators } from 'redux'
@@ -9,6 +9,8 @@ import navigatorService from './../helpers/NavigationService'
 import { colors, normalizeWidPx, tipografy, WIDTH_SCREEN, WIDTH_SCREEN_PERCENT } from './../helpers/Style'
 import Requests from './../shared/Requests'
 import { HeaderContainer } from './../helpers/SharedComponents'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+
 
 const SIZE_IMAGE_PAGE = (WIDTH_SCREEN - normalizeWidPx(24))
 const styles = StyleSheet.create({
@@ -118,7 +120,7 @@ class Home extends Component {
 
     requestFilmesMaisPopulares() {
         Requests.discoverFilmesMaisPopulares().then(r => {
-            this.setState({ filmesPopulares: r.results })
+            this.setState({ filmesPopulares: r[0].results })
         }).catch(err => {
             console.log(err)
         })
@@ -183,10 +185,11 @@ class Home extends Component {
                         <TouchableWithoutFeedback key={index} style={styles.boxImagemTxt} onPress={() => navigatorService.navigate('Detalhes', {
                             filme
                         })}>
-                            <Image style={styles.imagemVertical} source={mkUriImage(filme.poster_path)} />
-                            <Text style={styles.abaixoImagem}>{filme.title}</Text>
-                            <Text style={styles.abaixoImagem}>{new Date(filme.release_date).toLocaleDateString('pt-BR')}</Text>
-
+                            <View>
+                                <Image style={styles.imagemVertical} source={mkUriImage(filme.poster_path)} />
+                                <Text style={styles.abaixoImagem}>{filme.title}</Text>
+                                <Text style={styles.abaixoImagem}>{new Date(filme.release_date).toLocaleDateString('pt-BR')}</Text>
+                            </View>
                         </TouchableWithoutFeedback>
                     )
                         :

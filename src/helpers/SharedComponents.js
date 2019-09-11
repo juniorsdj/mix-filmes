@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { tipografy, colors } from './Style'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 const styles = StyleSheet.create({
     containerTitle: {

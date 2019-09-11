@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View, FlatList, TextInput,TouchableWithoutFeedback, Text, SafeAreaView, Image, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, FlatList, TextInput, Text, SafeAreaView, Image, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import navigatorService from './../helpers/NavigationService'
@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux'
 import { colors, normalizeWidPx, tipografy } from './../helpers/Style'
 import Requests from './../shared/Requests'
 import { mkUriImage } from './../helpers/FnUtils'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 const styles = StyleSheet.create({
     containerSafeAreaView: {

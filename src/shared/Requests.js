@@ -2,19 +2,19 @@ import axiosApi from './AxiosApi'
 import { stringifyQueryString } from '../helpers/FnUtils';
 
 export const discoverFilmesLancamento = () => {
-    return axiosApi.get(`/movie/now_playing?`)
+    return axiosApi.get(`/lancamentos?`)
 }
 export const discoverFilmesMaisPopulares = () => {
-    return axiosApi.get(`/movie/popular?`)
+    return axiosApi.get(`/populares?`)
 }
 export const discoverAtoresMaisPopulares = () => {
-    return axiosApi.get(`/person/popular?`)
+    return axiosApi.get(`/atores`)
 }
 export const detalhesFilme = (movieId) => {
-    return axiosApi.get(`/movie/${movieId}?`)
+    return axiosApi.get(`/${movieId}?`)
 }
 export const procurarFilmeByName = (query, page) => {
-    return axiosApi.get(`/search/movie/?${stringifyQueryString({ page, query })}`)
+    return axiosApi.get(`/procurar-filme/?${stringifyQueryString({ page, query })}`)
 }
 
 export default {
