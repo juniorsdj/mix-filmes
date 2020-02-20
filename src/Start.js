@@ -1,25 +1,41 @@
 import React from "react";
-import { View, Text, StyleSheet } from 'react-native';
-import rootReducer from './reducers'
+import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import { applyMiddleware, createStore } from 'redux'
+import { Provider } from 'react-redux'
+import promise from 'redux-promise'
+import thunk from 'redux-thunk'
+
+import rootReducer from './reducers';
+
+const devTools = process.env.NODE_ENV == 'development' ? window.__REDUX_DEVTOOLS_EXTENSION__
+  && window.__REDUX_DEVTOOLS_EXTENSION__() : {}
+
+export const store = applyMiddleware(promise, thunk)(createStore)(rootReducer, devTools)
+
+import Navigator from './Navigator'
+
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: 'center',
   },
 });
 
 class Start extends React.Component {
-  componentWillMount() {}
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Oi</Text>
-      </View>
+      <Provider store={store}>
+        <StatusBar translucentbackgroundColor="#000"
+          barStyle="light-content" />
+        <View style={styles.container}>
+          <Navigator />
+        </View>
+      </Provider>
+
     );
   }
 }
